@@ -1,7 +1,9 @@
 package com.springboot.blog.rest.api.controller;
 
 import com.springboot.blog.rest.api.dto.PostDto;
+import com.springboot.blog.rest.api.dto.PostResponse;
 import com.springboot.blog.rest.api.service.PostService;
+import com.springboot.blog.rest.api.utils.Constant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,13 @@ public class PostController {
 
     //get all posts api
     @GetMapping("/allPosts")
-    public List<PostDto> getAllPosts(){
-        return postService.getAllPosts();
+    public PostResponse getAllPosts(
+            @RequestParam(value ="pageNo", defaultValue = Constant.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value ="pageSize", defaultValue = Constant.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value ="sortBy", defaultValue = Constant.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value ="sortDir", defaultValue = Constant.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ){
+        return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
     //get post by id api
