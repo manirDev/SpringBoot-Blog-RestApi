@@ -9,6 +9,8 @@ import com.springboot.blog.rest.api.repository.RoleRepository;
 import com.springboot.blog.rest.api.repository.UserRepository;
 import com.springboot.blog.rest.api.security.JwtTokenProvider;
 import com.springboot.blog.rest.api.service.UserRegisterService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+@Api(value = "Auth Controller provide signIn and signUp Rest APIs")
 @RestController
 @RequestMapping(path = "api/auth")
 public class AuthController {
@@ -33,6 +36,8 @@ public class AuthController {
     private UserRegisterService userRegisterService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @ApiOperation(value = "Rest API for User register to the Blog app")
     @PostMapping("/signIn")
     public ResponseEntity<JwtAuthResponse> authenticator(@RequestBody LoginDto loginDto){
          Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -47,6 +52,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
+    @ApiOperation(value = "Rest API for User login to the Blog app")
     @PostMapping("/signUp")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
         //check if email or username exist
