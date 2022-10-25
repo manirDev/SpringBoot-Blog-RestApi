@@ -6,6 +6,7 @@ import com.springboot.blog.rest.api.entity.Role;
 import com.springboot.blog.rest.api.entity.User;
 import com.springboot.blog.rest.api.repository.RoleRepository;
 import com.springboot.blog.rest.api.repository.UserRepository;
+import com.springboot.blog.rest.api.service.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,7 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserRegisterService userRegisterService;
     @PostMapping("/signIn")
     public ResponseEntity<String> authenticator(@RequestBody LoginDto loginDto){
          Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -44,23 +43,14 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
         //check if email or username exist
         if(userRepository.existsByUserName(signUpDto.getUsername())){
-            return new ResponseEntity<>("Username is already exists", HttpStatus.BAD_REQUEST.OK);
+            return new ResponseEntity<>("Username is already exists", HttpStatus.BAD_REQUEST);
         }
         if(userRepository.existsByUserName(signUpDto.getEmail())){
             return new ResponseEntity<>("Email is already exists", HttpStatus.BAD_REQUEST);
         }
 
-        //create user object
-        User user = new User();
-        user.setName(signUpDto.getName());
-        user.setUserName(signUpDto.getUsername());
-        user.setEmail(signUpDto.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-        //add role to the user
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
-        user.setRoles(Collections.singleton(roles));
-
-        userRepository.save(user);
+        //create user object and register
+        userRegisterService.registerUser(signUpDto);
 
         return new ResponseEntity<>("User Successfully registered", HttpStatus.OK);
     }
