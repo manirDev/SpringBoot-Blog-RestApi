@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.security.PublicKey;
 import java.util.List;
 
-@Api(value = "CRUD rest API for Comment resource")
+@Api(value = "CRUD rest controller  for Comment resource")
 @RestController
 @RequestMapping("api/posts")
 public class CommentController {

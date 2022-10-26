@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
-@Api(value = "Auth Controller provide signIn and signUp Rest APIs")
+@Api(value = "Auth Controller provides signIn and signUp Rest APIs")
 @RestController
 @RequestMapping(path = "api/auth")
 public class AuthController {
