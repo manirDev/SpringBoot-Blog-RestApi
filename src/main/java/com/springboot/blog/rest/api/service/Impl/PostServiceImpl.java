@@ -92,6 +92,16 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
     }
 
+    @Override
+    public List<PostDto> searchPost(String query) {
+        List<Post> posts = postRepository.searchPost(query);
+        List<PostDto> postDtoList = posts.stream()
+                                          .map(post -> mapToDTO(post))
+                                          .collect(Collectors.toList());
+
+        return postDtoList;
+    }
+
     //convert dto to entity
     private Post mapToEntity(PostDto postDto){
         Post post = new Post();

@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "CRUD rest API for Post resource")
 @RestController
@@ -71,5 +72,12 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable Long postId){
         postService.deletePost(postId);
         return new ResponseEntity<>("The post with id:  "+postId+"  is deleted successfully", HttpStatus.OK);
+    }
+
+    //search posts api
+    @GetMapping("/search")
+    public List<PostDto> searchPost(@RequestParam(value = "query") String query){
+        List<PostDto> responsePosts = postService.searchPost(query);
+        return responsePosts;
     }
 }
