@@ -11,4 +11,6 @@ public interface PostService {
     PostDto getPostById(Long postId);
     PostDto updatePost(PostDto postDto, Long postId);
     void deletePost(Long postId);
+
+    List<PostDto> searchPost(String query);
 }
