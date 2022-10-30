@@ -90,6 +90,17 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.delete(comment);
     }
 
+    @Override
+    public List<CommentDto> searchComment(String query) {
+
+        List<Comment> comments = commentRepository.searchComment(query);
+        List<CommentDto> commentDtoList = comments.stream()
+                                                  .map(comment -> mapToDto(comment))
+                                                  .collect(Collectors.toList());
+
+        return commentDtoList;
+    }
+
     //finding comment by id
     private Comment findCommentById(Long commentId){
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->new ResourceNotFoundException("Comment", "id", commentId));

@@ -75,6 +75,7 @@ public class PostController {
     }
 
     //search posts api
+    @ApiOperation(value = "Rest API for searching by title or description a post")
     @GetMapping("/search")
     public List<PostDto> searchPost(@RequestParam(value = "query") String query){
         List<PostDto> responsePosts = postService.searchPost(query);
