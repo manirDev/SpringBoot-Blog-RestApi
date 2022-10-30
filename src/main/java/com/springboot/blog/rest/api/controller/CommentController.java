@@ -64,4 +64,10 @@ public class CommentController {
         commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment deleted successfully", HttpStatus.OK);
     }
+
+    //search comment api
+    @GetMapping("/searchComment")
+    public List<CommentDto> searchComment(@RequestParam(value = "query") String query){
+        return commentService.searchComment(query);
+    }
 }
